@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiseUP Projeto</title>
+
+    <link rel="stylesheet" href="arquivo.css">
+    
+    <script src="https://kit.fontawesome.com/cedc9e8411.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="tocadorMusical">
+            <nav>
+                <div class="circulo">
+                    <i class="fa-solid fa-angle-left"></i>
+                </div>
+                <div class="circulo">
+                    <i class="fa-solid fa-bars"></i>  
+            </nav>
+            <img src="imagens/shinji.jpg" class="imagemMusica" width="200px" height="200px">
+            <h1>Froy</h1>
+            <p>Whatever happens happens</p>
+
+            <audio id="musica">
+                <source src="musica/Whatever Happens, Happens.mp3" type="audio/mpeg">
+            </audio> 
+
+            <input type="range" value="0" id="progresso">
+
+            <div class="controles">
+                <div><i class="fa-solid fa-backward"></i></div>
+                <div onclick="tocarPausar()"><i class="fa-solid fa-play" id="iconesDeControle"></i></div>
+                <div><i class="fa-solid fa-forward"></i></div>
+
+
+        </div>
+    </div>
+    
+
+
+    <script>
+        let progresso = document.getElementById("progresso");
+        let musica = document.getElementById("musica");
+        let iconesDeControle = document.getElementById("iconesDeControle");
+
+        musica.onloadedmetadata = function() {
+            progresso.max = musica.duration;
+            progresso.value = musica.currentTime;
+        }
+
+        function tocarPausar() {
+            if (iconesDeControle.classList.contains("fa-pause")) {
+                musica.pause(); 
+                iconesDeControle.classList.remove("fa-pause");
+                iconesDeControle.classList.add("fa-play");     
+            } else {
+                musica.play();
+                iconesDeControle.classList.add("fa-pause");
+                iconesDeControle.classList.remove("fa-play");
+            }
+        }
+
+        musica.ontimeupdate = function() {
+            progresso.value = musica.currentTime;
+        }
+
+        progresso.oninput = function() {
+            musica.currentTime = progresso.value;
+        }
+    </script>
+</body>
+</html>
