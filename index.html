@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RiseUP Projeto</title>
-
     <link rel="stylesheet" href="arquivo.css">
-    
     <script src="https://kit.fontawesome.com/cedc9e8411.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
     <div class="container">
         <div class="tocadorMusical">
             <nav>
@@ -19,10 +16,11 @@
                 </div>
                 <div class="circulo">
                     <i class="fa-solid fa-bars"></i>  
+                </div>
             </nav>
-            <img src="imagens/shinji.jpg" class="imagemMusica" width="200px" height="200px">
-            <h1>Froy</h1>
-            <p>Whatever happens happens</p>
+            <img src="imagens/shinji.jpg" class="imagemMusica" id="imagemMusica" width="200px" height="200px">
+            <h1 id="tituloMusica">Froy</h1>
+            <p id="descricaoMusica">Whatever happens happens</p>
 
             <audio id="musica">
                 <source src="musica/Whatever Happens, Happens.mp3" type="audio/mpeg">
@@ -31,20 +29,43 @@
             <input type="range" value="0" id="progresso">
 
             <div class="controles">
-                <div><i class="fa-solid fa-backward"></i></div>
+                <div onclick="musicaAnterior()"><i class="fa-solid fa-backward"></i></div>
                 <div onclick="tocarPausar()"><i class="fa-solid fa-play" id="iconesDeControle"></i></div>
-                <div><i class="fa-solid fa-forward"></i></div>
-
-
+                <div onclick="proximaMusica()"><i class="fa-solid fa-forward"></i></div>
+            </div>
         </div>
     </div>
-    
-
 
     <script>
         let progresso = document.getElementById("progresso");
         let musica = document.getElementById("musica");
         let iconesDeControle = document.getElementById("iconesDeControle");
+        let imagemMusica = document.getElementById("imagemMusica");
+        let tituloMusica = document.getElementById("tituloMusica");
+        let descricaoMusica = document.getElementById("descricaoMusica");
+
+        let playlist = [
+            {
+                titulo: "Froy",
+                descricao: "Whatever happens happens",
+                arquivo: "musica/Whatever Happens, Happens.mp3",
+                imagem: "imagens/shinji.jpg"
+            },
+            {
+                titulo: "Tim Maia",
+                descricao: "Acende o farol (legendado em inglês/português)",
+                arquivo: "musica/Tim Maia- acende o farol (legendado em inglês-português) (320).mp3",
+                imagem: "imagens/timMaia.jpg"
+            },
+            {
+                titulo: "Elvis Presley",
+                descricao: "Praise Jah In The Moonlight",
+                arquivo: "musica/Praise Jah in The Moonlight (256).mp3",
+                imagem: "imagens/jah.jpg"
+            }
+        ];
+
+        let musicaAtual = 0;
 
         musica.onloadedmetadata = function() {
             progresso.max = musica.duration;
@@ -70,6 +91,32 @@
         progresso.oninput = function() {
             musica.currentTime = progresso.value;
         }
+
+        function carregarMusica(index) {
+            musicaAtual = index;
+            musica.src = playlist[index].arquivo;
+            imagemMusica.src = playlist[index].imagem;
+            tituloMusica.textContent = playlist[index].titulo;
+            descricaoMusica.textContent = playlist[index].descricao;
+            musica.load();
+            musica.play();  // Tocar automaticamente ao carregar
+            iconesDeControle.classList.add("fa-pause"); // Atualizar o ícone para "pausa"
+            iconesDeControle.classList.remove("fa-play");
+        }
+
+        function proximaMusica() {
+            musicaAtual = (musicaAtual + 1) % playlist.length;
+            carregarMusica(musicaAtual);
+        }
+
+        function musicaAnterior() {
+            musicaAtual = (musicaAtual - 1 + playlist.length) % playlist.length;
+            carregarMusica(musicaAtual);
+        }
+
+        carregarMusica(musicaAtual);
+
+        musica.addEventListener('ended', proximaMusica);
     </script>
 </body>
 </html>
