@@ -46,6 +46,11 @@ nav .circulo {
     background: #fff;
     color: #f53192;
     box-shadow:0 5px 10px rgba(255, 26, 26, 0.22) ;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    margin: auto;
 }
 
 .imagemMusica {
@@ -114,4 +119,23 @@ nav .circulo {
     background: #f53192;
     color: #fff;
     
+}
+
+#btn-api{
+    color: #f53192;
+    border: none;
+    font-size: 30px;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    background-color: transparent;
+    align-items: center;
+    margin: auto;
+    cursor: pointer;
+    
+}
+
+.divisao{
+    display: flex;
+    gap: 90px;
 }
